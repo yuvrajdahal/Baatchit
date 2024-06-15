@@ -4,9 +4,9 @@ import { useLoginMutation } from "../appstate/auth/auth_service";
 import { useState } from "react";
 import Input from "../components/Input";
 import { z } from "zod";
+import { baseUrl } from "../lib/api";
 
 function Login() {
-  const baseUrl = "https://baatchit-kvak.onrender.com/";
   const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 characters long"),
