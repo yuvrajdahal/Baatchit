@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import axios from "axios";
 
-export const baseUrl = "http://localhost:5000/api/v1/";
+export const baseUrl = "https://baatchit-kvak.onrender.com/api/v1/";
 const api = axios.create({
   headers: {
     "Content-Type": "application/json",
