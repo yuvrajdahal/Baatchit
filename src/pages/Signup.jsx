@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../components/Button";
 import { useSignupMutation } from "../appstate/auth/auth_service";
@@ -11,19 +11,22 @@ function Signup() {
     password: "",
   });
 
-  const [mutation,{isLoading}] = useSignupMutation();
-  
+  const [mutation, { isLoading }] = useSignupMutation();
+  const navigate = useNavigate();
+
   async function signupHanlder(e) {
     e.preventDefault();
     const data = await mutation(userInfo);
+    console.log(data);
     if (data?.data?.token) {
       const token = data.data.token;
       localStorage.setItem("token", JSON.stringify(token));
+      navigate("/");
     }
   }
 
   return (
-    <div className="w-full bg-dark py-5 flex justify-center items-center ">
+    <div className="bg-dark h-dvh flex justify-center items-center ">
       <form
         className="flex flex-col   w-full max-w-lg border-2 border-white/20 rounded px-8 py-10 gap-5 backdrop-blur-md"
         onSubmit={signupHanlder}
@@ -38,18 +41,7 @@ function Signup() {
         <p className="font-bold text-xl text-center text-light mb-3">
           Signup to see photos and videos from your friends.
         </p>
-        <input
-          className="block w-full p-3 rounded-lg"
-          type="email"
-          name="email"
-          onChange={(e) =>
-            setUserInfo((prev) => ({
-              ...prev,
-              email: e.target.value,
-            }))
-          }
-          placeholder="Email"
-        />
+
         <input
           name="fullname"
           className="block w-full p-3 rounded-lg"
@@ -76,6 +68,18 @@ function Signup() {
         />
         <input
           className="block w-full p-3 rounded-lg"
+          type="email"
+          name="email"
+          onChange={(e) =>
+            setUserInfo((prev) => ({
+              ...prev,
+              email: e.target.value,
+            }))
+          }
+          placeholder="Email"
+        />
+        <input
+          className="block w-full p-3 rounded-lg"
           name="password"
           type="password"
           placeholder="Password"
@@ -90,8 +94,8 @@ function Signup() {
           By signing up, you agree to our Terms , Privacy Policy and Cookies
           Policy .
         </span>
-        <Button disabled={isLoading} variant="btn" type="submit">
-          {isLoading?"Loading..":"Sign up"}
+        <Button disabled={isLoading} variant="default">
+          {isLoading ? "Loading..." : "Sign up"}
         </Button>
         <span className="text-light text-center">or</span>
         <Button variant="google" type="button">
